@@ -1,1 +1,1 @@
-include("examples/print.g#")
+include("examples/func.g#")

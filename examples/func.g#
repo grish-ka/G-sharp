@@ -1,0 +1,10 @@
+function basic();
+{
+    print("something");
+};
+
+function args(x, y);
+{
+    print(x);
+    print(y);
+};
