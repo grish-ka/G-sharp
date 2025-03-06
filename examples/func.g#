@@ -1,9 +1,9 @@
-function basic();
+function basic()
 {
     print("something");
 };
 
-function args(x, y);
+function args(x, y)
 {
     print(x);
     print(y);
