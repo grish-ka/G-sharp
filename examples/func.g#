@@ -1,10 +1,7 @@
-function basic()
-{
-    print("something");
-};
-
-function args(x, y)
+function dosomething(x, y)
 {
     print(x);
     print(y);
 };
+
+dosomething("hello", "world");
