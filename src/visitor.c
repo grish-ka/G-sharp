@@ -4,7 +4,7 @@
 #include <string.h>
 #include "include/io.h"
 
-// TODO: Run file to include
+// TODO: fix include
 
 static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_size)
 {
@@ -47,7 +47,7 @@ static AST_T* builtin_function_include(visitor_T* visitor, AST_T** args, int arg
         switch (visited_ast->type)
         {
             case AST_STRING: printf("%s will be included\n", visited_ast->string_value); printf("The contents are: \n%s\n", get_file_contents(visited_ast->string_value)); 
-                // Run file to include
+                // Include file
                 break;
             default: printf("please enter a file\n"); break;
         }
