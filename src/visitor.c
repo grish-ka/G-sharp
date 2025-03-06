@@ -2,8 +2,9 @@
 #include "include/scope.h"
 #include <stdio.h>
 #include <string.h>
+#include "include/io.h"
 
-// TODO: Add a Include function
+// TODO: Run file to include
 
 static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_size)
 {
@@ -37,6 +38,23 @@ static AST_T* builtin_function_custom(visitor_T* visitor, AST_T** args, int args
     return init_ast(AST_NOOP);
 }
 
+static AST_T* builtin_function_include(visitor_T* visitor, AST_T** args, int args_size)
+{
+    for (int i = 0; i < args_size; i++)
+    {
+        AST_T* visited_ast = visitor_visit(visitor, args[i]);
+
+        switch (visited_ast->type)
+        {
+            case AST_STRING: printf("%s will be included\n", visited_ast->string_value); printf("The contents are: \n%s", get_file_contents(visited_ast->string_value)); 
+                // Run file to include
+                break;
+            default: printf("please enter a file\n"); break;
+        }
+    }
+
+    return init_ast(AST_NOOP);
+}
 
 visitor_T* init_visitor()
 {
@@ -108,6 +126,11 @@ AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node)
     if (strcmp(node->function_call_name, "example") == 0)
     {
         return builtin_function_custom(visitor, node->function_call_arguments, node->function_call_arguments_size);
+    }
+
+    if (strcmp(node->function_call_name, "include") == 0)
+    {
+        return builtin_function_include(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
 
     AST_T* fdef = scope_get_function_definition(
