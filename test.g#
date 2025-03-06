@@ -1,1 +1,1 @@
-include("examples/func.g#")
+include("examples/func.g#", "test.g#");

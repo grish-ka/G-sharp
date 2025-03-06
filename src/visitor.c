@@ -40,18 +40,17 @@ static AST_T* builtin_function_custom(visitor_T* visitor, AST_T** args, int args
 
 static AST_T* builtin_function_include(visitor_T* visitor, AST_T** args, int args_size)
 {
-    for (int i = 0; i < args_size; i++)
-    {
-        AST_T* visited_ast = visitor_visit(visitor, args[i]);
+    
+    AST_T* visited_ast = visitor_visit(visitor, args[0]);
+    AST_T* visited_ast2 = visitor_visit(visitor, args[1]);
 
-        switch (visited_ast->type)
-        {
-            case AST_STRING: printf("%s will be included\n", visited_ast->string_value); printf("The contents are: \n%s\n", get_file_contents(visited_ast->string_value)); 
-                // Include file
-                break;
-            default: printf("please enter a file\n"); break;
-        }
+    switch (visited_ast->type)
+    {
+        case AST_STRING: printf("%s will be included\n", visited_ast->string_value); const char* content =get_file_contents(visited_ast->string_value); const char* filepath = visited_ast2->string_value ;printf("The contents are: \n%s\n", content); addfilecontent(filepath, content);
+            break;
+        default: printf("please enter a file\n"); break;
     }
+    
 
     return init_ast(AST_NOOP);
 }
