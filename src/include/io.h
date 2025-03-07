@@ -2,6 +2,6 @@
 #define IO_H
 
 char* get_file_contents(const char* filepath);
-char* addfilecontent(const char* filepath, const char* addcontent);
+char* addfilecontent(const char* filepath, const char* addcontent, const char* precontent);
 
 #endif

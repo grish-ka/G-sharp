@@ -30,7 +30,7 @@ char* get_file_contents(const char* filepath)
     exit(2);
 }
 
-char* addfilecontent(const char* filepath, const char* addcontent)
+char* addfilecontent(const char* filepath, const char* addcontent, const char* precontent)
 {
     FILE *ft;
     char ch;
@@ -41,7 +41,7 @@ char* addfilecontent(const char* filepath, const char* addcontent)
         exit(1);
     }
 
-    const char* fullcontent = strcat(addcontent, addcontent);
+    const char* fullcontent = strcat(addcontent, precontent);
 
     fprintf(ft, fullcontent);
     

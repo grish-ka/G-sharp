@@ -46,8 +46,7 @@ static AST_T* builtin_function_include(visitor_T* visitor, AST_T** args, int arg
 
     switch (visited_ast->type)
     {
-        case AST_STRING: printf("%s will be included\n", visited_ast->string_value); const char* content =get_file_contents(visited_ast->string_value); const char* filepath = visited_ast2->string_value ;printf("The contents are: \n%s\n", content); addfilecontent(filepath, content);
-            break;
+        case AST_STRING: printf("%s will be included\n", visited_ast->string_value); const char* content =strcat(get_file_contents(visited_ast->string_value), "\n"); if (visited_ast2->string_value == "") {printf("Enter self file here");}; const char* filepath = visited_ast2->string_value; const char* prefilecontent = get_file_contents(filepath);printf("The contents are: \n%s\n", content); addfilecontent(filepath, content, prefilecontent); break;
         default: printf("please enter a file\n"); break;
     }
     
