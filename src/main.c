@@ -7,7 +7,7 @@
 
 void print_help()
 {
-    printf("Usage:\nhello.out <filename>\n");
+    printf("Usage:\ng#.out <filename>\n");
     exit(0);
 }
 
