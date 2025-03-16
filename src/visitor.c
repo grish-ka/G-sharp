@@ -1,8 +1,10 @@
 #include "include/visitor.h"
 #include "include/scope.h"
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #include "include/io.h"
+#include "include/strfuncs.h"
 
 // TODO: fix include
 
@@ -21,6 +23,22 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
 
     return init_ast(AST_NOOP);
 }
+
+// static AST_T* builtin_function_exit(visitor_T* visitor, AST_T** args, int args_size)
+// {
+//     for (int i = 0; i < args_size; i++)
+//     {
+//         AST_T* visited_ast = visitor_visit(visitor, args[i]);
+
+//         switch (visited_ast->type)
+//         {
+//             case AST_STRING: exit(atoi(visited_ast)); break;
+//             default: exit(0); break;
+//         }
+//     }
+//     exit(0);
+//     return init_ast(AST_NOOP);
+// }
 
 static AST_T* builtin_function_custom(visitor_T* visitor, AST_T** args, int args_size)
 {
@@ -46,8 +64,13 @@ static AST_T* builtin_function_include(visitor_T* visitor, AST_T** args, int arg
 
     switch (visited_ast->type)
     {
-        case AST_STRING: printf("%s will be included\n", visited_ast->string_value); const char* content =strcat(get_file_contents(visited_ast->string_value), "\n"); if (visited_ast2->string_value == "") {printf("Enter self file here");}; const char* filepath = visited_ast2->string_value; const char* prefilecontent = get_file_contents(filepath);printf("The contents are: \n%s\n", content); addfilecontent(filepath, content, prefilecontent); break;
-        default: printf("please enter a file\n"); break;
+        case AST_STRING: printf("%s will be included\n", visited_ast->string_value);
+        const char* content =strcat(get_file_contents(visited_ast->string_value), "\n");
+        if (visited_ast2->string_value == "") {printf("Enter self file here");};
+        char* filepath = visited_ast2->string_value; const char* prefilecontent = get_file_contents(filepath);
+        const char* statement = strcat(("include(%s, %s)", visited_ast, visited_ast2), "") ;strremove(prefilecontent, statement);
+        printf("The contents are: \n%s\n", content); addfilecontent(filepath, content, prefilecontent); break;
+        default: printf("please enter a file\n");break;
     }
     
 
@@ -125,6 +148,11 @@ AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node)
     {
         return builtin_function_custom(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
+
+    // if (strcmp(node->function_call_name, "exit") == 0)
+    // {
+    //     return builtin_function_exit(visitor, node->function_call_arguments, node->function_call_arguments_size);
+    // }
 
     if (strcmp(node->function_call_name, "include") == 0)
     {

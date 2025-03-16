@@ -1,4 +1,3 @@
-include("examples/func.g#", "test.g#");
-include("examples/print.g#", "");
+include("SDK/main.g#", "test.g#");
 
-dosomething("hello", "world");
+println("hello");
