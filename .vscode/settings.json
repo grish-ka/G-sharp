@@ -1,7 +1,8 @@
 {
     "deno.enable": true,
     "files.associations": {
-        "token.h": "c"
+        "token.h": "c",
+        "visitor.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled",
     "makefile.buildLog": "logs/makefile.buildLog",

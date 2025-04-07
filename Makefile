@@ -1,7 +1,7 @@
 exec = g\#.out
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
-flags = -g
+flags = -g -lX11
 
 
 $(exec): $(objects)

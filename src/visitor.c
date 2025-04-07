@@ -5,6 +5,7 @@
 #include <string.h>
 #include "include/io.h"
 #include "include/strfuncs.h"
+#include <X11/Xlib.h>
 
 // TODO: fix include
 
@@ -18,6 +19,32 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
         {
             case AST_STRING: printf("%s\n", visited_ast->string_value); break;
             default: printf("%p\n", visited_ast); break;
+        }
+    }
+
+    return init_ast(AST_NOOP);
+}
+
+static AST_T* builtin_function_new_window(visitor_T* visitor, AST_T** args, int args_size) {
+    for (int i = 0; i < args_size; i++)
+    {
+        AST_T* visited_ast = visitor_visit(visitor, args[i]);
+
+        switch (visited_ast->type)
+        {
+            // case AST_STRING: printf("%s\n", visited_ast->string_value); break;
+            default: XEvent event;
+            Display* display = XOpenDisplay(NULL);
+            Window w = XCreateSimpleWindow(display, DefaultRootWindow(display), 50, 50, 250, 250, 1, BlackPixel(display, 0), WhitePixel(display, 0));
+            XMapWindow(display, w);
+            XSelectInput(display, w, ExposureMask);
+        
+            for (;;) {
+                XNextEvent(display, &event);
+                if (event.type == Expose) {
+                    XDrawString(display, w, DefaultGC(display, 0), 100, 100, "TEST!\n If you ae seeing this then this worked", 20);
+                }
+            } break;
         }
     }
 
@@ -149,10 +176,10 @@ AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node)
         return builtin_function_custom(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
 
-    // if (strcmp(node->function_call_name, "exit") == 0)
-    // {
-    //     return builtin_function_exit(visitor, node->function_call_arguments, node->function_call_arguments_size);
-    // }
+    if (strcmp(node->function_call_name, "new-window") == 0)
+    {
+        return builtin_function_new_window(visitor, node->function_call_arguments, node->function_call_arguments_size);
+    }
 
     if (strcmp(node->function_call_name, "include") == 0)
     {
