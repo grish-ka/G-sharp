@@ -32,12 +32,34 @@ void lexer_skip_whitespace(lexer_T* lexer)
     }
 }
 
+void lexer_skip_comment(lexer_T* lexer){
+    lexer_advance(lexer);
+
+    // char* value = calloc(1, sizeof(char));
+    // value[0] = '\0';
+
+    while (lexer->c != '/')
+    {
+        // char* s = lexer_get_current_char_as_string(lexer);
+        // value = realloc(value, (strlen(value) + strlen(s) + 1) * sizeof(char));
+        // strcat(value, s);
+
+        lexer_advance(lexer);
+    }
+
+    lexer_advance(lexer);
+}
+
 token_T* lexer_get_next_token(lexer_T* lexer)
 {
     while (lexer->c != '\0' && lexer->i < strlen(lexer->contents))
     {
         if (lexer->c == ' ' || lexer->c == 10)
             lexer_skip_whitespace(lexer);
+
+        if (lexer->c == '/') {
+            lexer_skip_comment(lexer);
+        }
 
         if (isalnum(lexer->c))
             return lexer_collect_id(lexer);

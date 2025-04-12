@@ -1,1 +1,4 @@
-new-window();
+include("SDK/main.g#", "test.g#")
+
+/ newwindow(250, 250); /
+/print("test");/
