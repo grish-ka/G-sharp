@@ -1,7 +1,7 @@
-exec = g\#.out
+exec = g\#.exe
 sources = $(wildcard src/*.c)
 objects = $(sources:.c=.o)
-flags = -g -lX11
+flags = -g
 
 
 $(exec): $(objects)
@@ -10,9 +10,9 @@ $(exec): $(objects)
 %.o: %.c include/%.h
 	gcc -c $(flags) $< -o $@
 
-install:
-	make
-	cp ./g#.out /usr/local/bin/g#
+# install:
+# 	make
+# 	cp ./g#.out /usr/local/bin/g#
 
 clean:
 	-rm *.out

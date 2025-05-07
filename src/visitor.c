@@ -5,7 +5,7 @@
 #include <string.h>
 #include "include/io.h"
 #include "include/strfuncs.h"
-#include <X11/Xlib.h>
+#include <windows.h>
 
 // TODO: fix include
 
@@ -26,25 +26,9 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
 }
 
 static AST_T* builtin_function_new_window(visitor_T* visitor, AST_T** args, int args_size) {
-    for (int i = 0; i < args_size; i++)
-    {
-        
-        AST_T* width = visitor_visit(visitor, args[0]);
-        AST_T* height = visitor_visit(visitor, args[1]);
-        // case AST_STRING: printf("%s\n", visited_ast->string_value); break;
-        XEvent event;
-        Display* display = XOpenDisplay(NULL);
-        Window w = XCreateSimpleWindow(display, DefaultRootWindow(display), 50, 50, width, height, 1, BlackPixel(display, 0), WhitePixel(display, 0));
-        XMapWindow(display, w);
-        XSelectInput(display, w, ExposureMask);
     
-        for (;;) {
-            XNextEvent(display, &event);
-            if (event.type == Expose) {
-            }
-        } break;
-        
-    }
+    MessageBeep(MB_OK);
+    MessageBox(NULL, "Test", "Sample Message", MB_OKCANCEL);
 
     return init_ast(AST_NOOP);
 }
