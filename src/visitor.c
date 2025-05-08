@@ -27,8 +27,10 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
 
 static AST_T* builtin_function_new_window(visitor_T* visitor, AST_T** args, int args_size) {
     
+    AST_T* text = visitor_visit(visitor, args[0]);
+    AST_T* heder = visitor_visit(visitor, args[1]);
     MessageBeep(MB_OK);
-    MessageBox(NULL, "Test", "Sample Message", MB_OKCANCEL);
+    MessageBox(NULL, text->string_value, heder->string_value, MB_OKCANCEL);
 
     return init_ast(AST_NOOP);
 }
@@ -160,7 +162,7 @@ AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node)
         return builtin_function_custom(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
 
-    if (strcmp(node->function_call_name, "newwindow") == 0)
+    if (strcmp(node->function_call_name, "messagebox") == 0)
     {
         return builtin_function_new_window(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
