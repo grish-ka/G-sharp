@@ -25,11 +25,15 @@ static AST_T* builtin_function_print(visitor_T* visitor, AST_T** args, int args_
     return init_ast(AST_NOOP);
 }
 
-static AST_T* builtin_function_new_window(visitor_T* visitor, AST_T** args, int args_size) {
+static AST_T* builtin_function_messagebeep(visitor_T* visitor, AST_T** args, int args_size) {
+    MessageBeep(MB_OK);
+    return init_ast(AST_NOOP);
+}
+
+static AST_T* builtin_function_messagebox(visitor_T* visitor, AST_T** args, int args_size) {
     
     AST_T* text = visitor_visit(visitor, args[0]);
     AST_T* heder = visitor_visit(visitor, args[1]);
-    MessageBeep(MB_OK);
     MessageBox(NULL, text->string_value, heder->string_value, MB_OKCANCEL);
 
     return init_ast(AST_NOOP);
@@ -164,12 +168,17 @@ AST_T* visitor_visit_function_call(visitor_T* visitor, AST_T* node)
 
     if (strcmp(node->function_call_name, "messagebox") == 0)
     {
-        return builtin_function_new_window(visitor, node->function_call_arguments, node->function_call_arguments_size);
+        return builtin_function_messagebox(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
 
     if (strcmp(node->function_call_name, "include") == 0)
     {
         return builtin_function_include(visitor, node->function_call_arguments, node->function_call_arguments_size);
+    }
+
+    if (strcmp(node->function_call_name, "messagebeep") == 0)
+    {
+        return builtin_function_messagebeep(visitor, node->function_call_arguments, node->function_call_arguments_size);
     }
 
     AST_T* fdef = scope_get_function_definition(

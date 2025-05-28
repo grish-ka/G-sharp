@@ -1,2 +1,5 @@
 **/*.exe
 **/*.o
+**/*.aip
+/G#-cache/
+/G#-SetupFiles/
